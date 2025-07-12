@@ -9,7 +9,7 @@ public class RomanToInteger {
         RomanToInteger romanToInteger = new RomanToInteger();
 
         for (int i = 0; i < in.length; i++) {
-//            int res = romanToInteger.romanToInt1(in[i]);
+            // int res = romanToInteger.romanToInt1(in[i]);
             int res = romanToInteger.romanToInt2(in[i]);
             System.out.println(res);
         }
@@ -47,8 +47,7 @@ public class RomanToInteger {
             char ch1 = s.charAt(i);
             if ((i + 1) < n && getVal(ch1) < getVal(s.charAt(i + 1))) {
                 sum = sum - getVal(ch1);
-            }
-            else {
+            } else {
                 sum = sum + getVal(ch1);
             }
         }
