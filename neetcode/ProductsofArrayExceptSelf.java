@@ -4,6 +4,9 @@ import java.util.*;
 import java.io.*;
 import java.math.*;
 
+/**
+ * https://neetcode.io/problems/products-of-array-discluding-self?list=neetcode150
+ */
 public class ProductsofArrayExceptSelf {
     public static void main(String[] args) {
         ProductsofArrayExceptSelf sol = new ProductsofArrayExceptSelf();
