@@ -1,4 +1,4 @@
-package neetcode;
+
 
 /**
  * https://neetcode.io/problems/trapping-rain-water?list=neetcode150
