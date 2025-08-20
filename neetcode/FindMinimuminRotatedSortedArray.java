@@ -16,12 +16,12 @@ public class FindMinimuminRotatedSortedArray {
                 break;
             }
 
-            int m = l + (r - l) / 2;
-            res = Math.min(res, nums[m]);
-            if (nums[m] >= nums[l]) {
-                l = m + 1;
+            int mid = (l + r) / 2;
+            res = Math.min(res, nums[mid]);
+            if (nums[mid] >= nums[l]) {
+                l = mid + 1;
             } else {
-                r = m - 1;
+                r = mid - 1;
             }
         }
         return res;
