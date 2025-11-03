@@ -5,11 +5,11 @@ import java.util.List;
 public class MergeKSortedLinkedLists {
     public static void main(String[] args) {
         MergeKSortedLinkedLists sol = new MergeKSortedLinkedLists();
-        ListNode root = sol.mergeKLists(sol.create(new Integer[][] {{1, 2, 4}, {1, 3, 5}, {3, 6}}));
+        ListNode root = sol.mergeKLists2(sol.create(new Integer[][] {{1, 2, 4}, {1, 3, 5}, {3, 6}}));
         sol.print(root);
-        root = sol.mergeKLists(sol.create(new Integer[][] {}));
+        root = sol.mergeKLists2(sol.create(new Integer[][] {}));
         sol.print(root);
-        root = sol.mergeKLists(sol.create(new Integer[][] {{}}));
+        root = sol.mergeKLists2(sol.create(new Integer[][] {{}}));
         sol.print(root);
     }
 
@@ -79,5 +79,49 @@ public class MergeKSortedLinkedLists {
             cur = cur.next;
         }
         return res.next;
+    }
+
+    public ListNode mergeKLists2(ListNode[] lists) {
+        if(lists == null || lists.length == 0){
+            return null;
+        }
+
+        while(lists.length > 1){
+            List<ListNode> mergedLists = new ArrayList<>();
+            for(int i=0; i<lists.length; i+=2){
+                ListNode l1 = lists[i];
+                ListNode l2 = (i+1) < lists.length ? lists[i+1] : null;
+
+                mergedLists.add(merge(l1, l2));
+            }
+            lists = mergedLists.toArray(new ListNode[0]);
+        }
+
+        return lists[0];
+    }
+
+    private ListNode merge(ListNode l1, ListNode l2){
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+
+        while(l1 != null && l2 != null){
+            if(l1.val <= l2.val){
+                cur.next = l1;
+                l1 = l1.next;
+            }else{
+                cur.next = l2;
+                l2 = l2.next;
+            }
+
+            cur = cur.next;
+        }
+
+        if(l1 != null){
+            cur.next = l1;
+        }else{
+            cur.next = l2;
+        }
+
+        return dummy.next;
     }
 }
