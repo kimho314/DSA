@@ -57,7 +57,7 @@ public class PacificAtlanticWaterFlow {
             int nc = c + d[1];
             if (nr >= 0 && nr < heights.length && nc >= 0 && nc < heights[0].length
                     && !ocean[nr][nc] && heights[nr][nc] >= heights[r][c]) {
-                dfs(nr, nc, ocean, heights);
+                dfs2(nr, nc, ocean, heights);
             }
         }
     }
