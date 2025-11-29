@@ -4,6 +4,11 @@ public class CourseSchedule {
     private boolean res;
     private boolean[] visited;
 
+    // Map each course to its prerequisites
+    private Map<Integer, List<Integer>> preMap = new HashMap<>();
+    // Store all courses along the current DFS path
+    private Set<Integer> visiting = new HashSet<>();
+
     public static void main(String[] args) {
         CourseSchedule sol = new CourseSchedule();
         boolean res = sol.canFinish(5, new int[][] {{1, 4}, {2, 4}, {3, 1}, {3, 2}});
@@ -15,6 +20,41 @@ public class CourseSchedule {
         System.out.println(res);
         res = sol.canFinish(2, new int[][] {{0, 1}});
         System.out.println(res);
+    }
+
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
+        for (int i = 0; i < numCourses; i++) {
+            preMap.put(i, new ArrayList<>());
+        }
+        for (int[] prereq : prerequisites) {
+            preMap.get(prereq[0]).add(prereq[1]);
+        }
+
+        for (int i = 0; i < numCourses; i++) {
+            if (!dfs2(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs2(int crs) {
+        if (visiting.contains(crs)) {
+            return false;
+        }
+        if (preMap.get(crs).isEmpty()) {
+            return true;
+        }
+
+        visiting.add(crs);
+        for (int pre : preMap.get(crs)) {
+            if (!dfs2(pre)) {
+                return false;
+            }
+        }
+        visiting.remove(crs);
+        preMap.put(crs, new ArrayList<>());
+        return true;
     }
 
     public boolean canFinish(int numCourses, int[][] prerequisites) {
