@@ -1,67 +1,76 @@
 package boj;
 
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class BOJ2623 {
-    static FastReader sc = new FastReader();
-    static StringBuilder sb = new StringBuilder();
-    static int N;
-    static int M;
-    static int[] INDEG;
-    static ArrayList<Integer>[] ADJ;
+    private static FastReader SC = new FastReader();
+    private static int N, M;
 
     public static void main(String[] args) {
-        N = sc.nextInt();
-        M = sc.nextInt();
-        INDEG = new int[N + 1];
-        ADJ = new ArrayList[N + 1];
-        for (int i = 1; i <= N; i++) {
-            ADJ[i] = new ArrayList<>();
+        List<List<Integer>> adj = new ArrayList<>();
+        N = SC.nextInt();
+        M = SC.nextInt();
+        for (int i = 0; i < N; i++) {
+            adj.add(new ArrayList<>());
         }
 
         for (int i = 0; i < M; i++) {
-            int cnt = sc.nextInt();
-            int x = sc.nextInt();
-            int y;
-            for (int j = 2; j <= cnt; j++) {
-                y = sc.nextInt();
-                ADJ[x].add(y);
-                INDEG[y]++;
-                x = y;
+            String[] split = SC.nextLine().split(" ");
+            int n = Integer.parseInt(split[0]);
+            if (n <= 0) {
+                continue;
+            }
+
+            int cur = Integer.parseInt(split[1]);
+            for (int j = 2; j <= n; j++) {
+                int next = Integer.parseInt(split[j]);
+                adj.get(cur - 1).add(next - 1);
+                cur = next;
             }
         }
 
-        Deque<Integer> queue = new LinkedList<>();
-        for (int i = 1; i <= N; i++) {
-            if (INDEG[i] == 0) {
-                queue.add(i);
+        List<Integer> res = topologicalSort(adj);
+        if (res.size() < N) {
+            System.out.println(0);
+        }
+        else {
+            for (int elem : res) {
+                System.out.println(elem + 1);
+            }
+        }
+    }
+
+    private static List<Integer> topologicalSort(List<List<Integer>> adj) {
+        int[] inDegree = new int[N];
+        for (int i = 0; i < N; i++) {
+            for (int elem : adj.get(i)) {
+                inDegree[elem]++;
             }
         }
 
-        List<Integer> ans = new ArrayList<>();
-        while (!queue.isEmpty()) {
-            int x = queue.poll();
-            ans.add(x);
-            for (int y : ADJ[x]) {
-                INDEG[y]--;
-                if (INDEG[y] == 0) {
-                    queue.add(y);
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < N; i++) {
+            if (inDegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            res.add(node);
+
+            for (int elem : adj.get(node)) {
+                inDegree[elem]--;
+                if (inDegree[elem] == 0) {
+                    q.add(elem);
                 }
             }
         }
 
-        if (ans.size() == N) {
-            for (int x : ans) {
-                sb.append(x).append('\n');
-            }
-        }
-        else {
-            sb.append(0);
-        }
-
-        System.out.println(sb);
+        return res;
     }
 }
