@@ -22,6 +22,56 @@ public class CourseSchedule {
         System.out.println(res);
     }
 
+    public boolean canFinish3(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int[] pair : prerequisites) {
+            int a = pair[0];
+            int b = pair[1];
+            adj.get(a).add(b);
+        }
+
+        List<Integer> res = topologicalSort(numCourses, adj);
+        if (res.size() < numCourses) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private List<Integer> topologicalSort(int numCourses, List<List<Integer>> adj) {
+        int[] inDegree = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            for (int elem : adj.get(i)) {
+                inDegree[elem]++;
+            }
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+            res.add(cur);
+
+            for (int next : adj.get(cur)) {
+                inDegree[next]--;
+                if (inDegree[next] == 0) {
+                    q.add(next);
+                }
+            }
+        }
+
+        return res;
+    }
+
     public boolean canFinish2(int numCourses, int[][] prerequisites) {
         for (int i = 0; i < numCourses; i++) {
             preMap.put(i, new ArrayList<>());
