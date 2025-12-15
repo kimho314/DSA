@@ -11,6 +11,65 @@ public class CourseScheduleII {
         System.out.println(Arrays.toString(res));
     }
 
+    public int[] findOrder2(int numCourses, int[][] prerequisites) {
+        if (numCourses <= 0) {
+            return new int[0];
+        }
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int[] elem : prerequisites) {
+            int a = elem[0];
+            int b = elem[1];
+            adj.get(b).add(a);
+        }
+
+        List<Integer> order = topologicalSort(adj, numCourses);
+        if (order.size() < numCourses) {
+            return new int[0];
+        } else {
+            int[] res = new int[numCourses];
+            for (int i = 0; i < numCourses; i++) {
+                res[i] = order.get(i);
+            }
+            return res;
+        }
+    }
+
+    private List<Integer> topologicalSort(List<List<Integer>> adj, int numCourses) {
+        int[] inDegree = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            for (int elem : adj.get(i)) {
+                inDegree[elem]++;
+            }
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+            res.add(cur);
+
+            for (int next : adj.get(cur)) {
+                inDegree[next]--;
+                if (inDegree[next] == 0) {
+                    q.add(next);
+                }
+            }
+        }
+
+        return res;
+    }
+
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> prereq = new HashMap<>();
         for (int[] pair : prerequisites) {
