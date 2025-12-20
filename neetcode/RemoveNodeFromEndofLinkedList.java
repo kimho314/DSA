@@ -22,7 +22,7 @@ public class RemoveNodeFromEndofLinkedList {
     public static void main(String[] args) {
         RemoveNodeFromEndofLinkedList sol = new RemoveNodeFromEndofLinkedList();
         ListNode head = sol.create(new int[] {1, 2, 3, 4});
-        ListNode node = sol.removeNthFromEnd(head, 2);
+        ListNode node = sol.removeNthFromEnd3(head, 2);
         sol.print(node);
     }
 
@@ -66,6 +66,25 @@ public class RemoveNodeFromEndofLinkedList {
             cur = cur.next;
         }
         return head;
+    }
+
+    public ListNode removeNthFromEnd3(ListNode head, int n) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode slow = dummy;
+        ListNode fast = head;
+        while (n > 0) {
+            fast = fast.next;
+            n--;
+        }
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        slow.next = slow.next.next;
+
+        return dummy.next;
     }
 
     private void print(ListNode head) {
