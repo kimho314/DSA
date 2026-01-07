@@ -43,4 +43,33 @@ public class LCD496 {
         // System.out.println(Arrays.toString(tmp));
         return res;
     }
+
+    public int[] nextGreaterElement2(int[] nums1, int[] nums2) {
+        if (nums2.length == 0) {
+            return new int[0];
+        }
+
+        int[] res = new int[nums1.length];
+        Arrays.fill(res, -1);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums1.length; i++) {
+            if (!map.containsKey(nums1[i])) {
+                map.put(nums1[i], i);
+            }
+        }
+
+        int len = nums2.length;
+        for (int i = 0; i < len; i++) {
+            if (!map.containsKey(nums2[i])) {
+                continue;
+            }
+            for (int j = i + 1; j < len; j++) {
+                if (nums2[i] < nums2[j]) {
+                    res[map.get(nums2[i])] = nums2[j];
+                    break;
+                }
+            }
+        }
+        return res;
+    }
 }
