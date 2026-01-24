@@ -1,9 +1,9 @@
 public class PartitionEqualSubsetSum {
     public static void main(String[] args) {
         PartitionEqualSubsetSum sol = new PartitionEqualSubsetSum();
-        boolean res = sol.canPartition(new int[] {1, 2, 3, 4});
+        boolean res = sol.canPartition(new int[] { 1, 2, 3, 4 });
         IO.println(res);
-        res = sol.canPartition(new int[] {1, 2, 3, 4, 5});
+        res = sol.canPartition(new int[] { 1, 2, 3, 4, 5 });
         IO.println(res);
     }
 
@@ -34,5 +34,29 @@ public class PartitionEqualSubsetSum {
         }
 
         return dp[n][target];
+    }
+
+    public boolean canPartition2(int[] nums) {
+        int totalSum = 0;
+        for (int num : nums) {
+            totalSum += num;
+        }
+        if (totalSum % 2 != 0) {
+            return false;
+        }
+
+        return dfs(0, totalSum, 0, nums);
+    }
+
+    private boolean dfs(int leftSum, int rightSum, int idx, int[] nums) {
+        if (idx == nums.length) {
+            return false;
+        }
+        if (leftSum == rightSum) {
+            return true;
+        }
+
+        return dfs(leftSum + nums[idx], rightSum - nums[idx], idx + 1, nums) ||
+                dfs(leftSum, rightSum, idx + 1, nums);
     }
 }
