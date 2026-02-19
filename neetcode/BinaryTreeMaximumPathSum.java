@@ -4,11 +4,11 @@ import java.util.Queue;
 public class BinaryTreeMaximumPathSum {
     public static void main(String[] args) {
         BinaryTreeMaximumPathSum sol = new BinaryTreeMaximumPathSum();
-        TreeNode root = sol.create(new Integer[] {1, 2, 3});
+        TreeNode root = sol.create(new Integer[] { 1, 2, 3 });
         int res = sol.maxPathSum(root);
         IO.println(res);
 
-        root = sol.create(new Integer[] {-15, 10, 20, null, null, 15, 5, -5});
+        root = sol.create(new Integer[] { -15, 10, 20, null, null, 15, 5, -5 });
         res = sol.maxPathSum(root);
         IO.println(res);
     }
@@ -18,7 +18,8 @@ public class BinaryTreeMaximumPathSum {
         TreeNode left;
         TreeNode right;
 
-        TreeNode() {}
+        TreeNode() {
+        }
 
         TreeNode(int val) {
             this.val = val;
@@ -110,5 +111,23 @@ public class BinaryTreeMaximumPathSum {
         res = Math.max(res, root.val + left + right);
         dfs(root.left);
         dfs(root.right);
+    }
+
+    public int maxPathSum2(TreeNode root) {
+        int[] res = new int[] { root.val };
+        dfs(root, res);
+        return res[0];
+    }
+
+    private int dfs2(TreeNode root, int[] res) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftMax = Math.max(dfs(root.left, res), 0);
+        int rightMax = Math.max(dfs(root.right, res), 0);
+
+        res[0] = Math.max(res[0], root.val + leftMax + rightMax);
+        return root.val + Math.max(leftMax, rightMax);
     }
 }
