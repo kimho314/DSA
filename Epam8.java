@@ -10,6 +10,10 @@ public class Epam8 {
         Epam8 sol = new Epam8();
         boolean res = sol.solution("A man, a plan, a canal: Panama");
         IO.println(res);
+        res = sol.solution("A ");
+        IO.println(res);
+        res = sol.solution("A man,");
+        IO.println(res);
     }
 
     private boolean solution(String s) {
