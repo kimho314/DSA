@@ -10,48 +10,24 @@ public class Searcha2DMatrix {
     }
 
     public boolean searchMatrix(int[][] matrix, int target) {
-        int n = matrix.length;
-        int m = matrix[0].length;
-        int len = n * m;
-        int[] arr = new int[len];
-        for (int i = 0; i < len; i++) {
-            arr[i] = matrix[i / m][i % m];
-        }
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int len = row * col;
 
         int l = 0;
         int r = len - 1;
         while (l <= r) {
-            int mid = (l + r) / 2;
-            if (arr[mid] == target) {
+            int mid = l + (r - l) / 2;
+            int tmpRow = mid / col;
+            int tmpCol = mid % col;
+            if (matrix[tmpRow][tmpCol] == target) {
                 return true;
-            } else if (arr[mid] > target) {
-                r = mid - 1;
-            } else {
+            } else if (matrix[tmpRow][tmpCol] < target) {
                 l = mid + 1;
+            } else {
+                r = mid - 1;
             }
         }
-
-        return false;
-    }
-
-    public boolean searchMatrix2(int[][] matrix, int target) {
-        int n = matrix.length;
-        int m = matrix[0].length;
-        int len = n * m;
-
-        int l = 0;
-        int r = len - 1;
-        while (l <= r) {
-            int mid = (l + r) / 2;
-            if (matrix[mid / m][mid % m] == target) {
-                return true;
-            } else if (matrix[mid / m][mid % m] > target) {
-                r = mid - 1;
-            } else {
-                l = mid + 1;
-            }
-        }
-
         return false;
     }
 }
