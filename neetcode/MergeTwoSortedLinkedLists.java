@@ -23,24 +23,25 @@ public class MergeTwoSortedLinkedLists {
     }
 
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode dummy = new ListNode(0);
-        ListNode node = dummy;
-
+        if (list1 == null && list2 == null) {
+            return null;
+        }
+        ListNode dummy = new ListNode();
+        ListNode cur = dummy;
         while (list1 != null && list2 != null) {
-            if (list1.val < list2.val) {
-                node.next = list1;
+            if (list1.val <= list2.val) {
+                cur.next = list1;
                 list1 = list1.next;
             } else {
-                node.next = list2;
+                cur.next = list2;
                 list2 = list2.next;
             }
-            node = node.next;
+            cur = cur.next;
         }
-
         if (list1 != null) {
-            node.next = list1;
+            cur.next = list1;
         } else {
-            node.next = list2;
+            cur.next = list2;
         }
 
         return dummy.next;
@@ -63,10 +64,12 @@ public class MergeTwoSortedLinkedLists {
 
     private void print(ListNode list) {
         ListNode node = list;
+        StringBuilder sb = new StringBuilder();
         while (node != null) {
             int val = node.val;
-            System.out.println(val);
+            sb.append(val).append(" ");
             node = node.next;
         }
+        IO.println(sb.toString());
     }
 }
