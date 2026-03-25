@@ -8,22 +8,41 @@ public class MedianofTwoSortedArrays {
     }
 
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int len = nums1.length + nums2.length;
-        int[] res = new int[len];
-        int idx = 0;
-        for (int elem : nums1) {
-            res[idx++] = elem;
-        }
-        for (int elem : nums2) {
-            res[idx++] = elem;
-        }
-        Arrays.sort(res);
+        int[] A = nums1;
+        int[] B = nums2;
+        int total = A.length + B.length;
+        int half = (total + 1) / 2;
 
-        if (len % 2 == 1) {
-            return res[len / 2];
-        } else {
-            return (double) (res[len / 2 - 1] + res[len / 2]) / 2.0;
+        if (B.length < A.length) {
+            int[] tmp = A;
+            A = B;
+            B = tmp;
         }
+
+        int l = 0;
+        int r = A.length;
+        while (l <= r) {
+            int i = (l + r) / 2;
+            int j = half - i;
+
+            int Aleft = i > 0 ? A[i - 1] : Integer.MIN_VALUE;
+            int Aright = i < A.length ? A[i] : Integer.MAX_VALUE;
+            int Bleft = j > 0 ? B[j - 1] : Integer.MIN_VALUE;
+            int Bright = j < B.length ? B[j] : Integer.MAX_VALUE;
+
+            if (Aleft <= Bright && Bleft <= Aright) {
+                if (total % 2 != 0) {
+                    return Math.max(Aleft, Bleft);
+                }
+                return (Math.max(Aleft, Bleft) + Math.min(Aright, Bright)) / 2.0;
+            } else if (Aleft > Bright) {
+                r = i - 1;
+            } else {
+                l = i + 1;
+            }
+        }
+
+        return -1;
     }
 
     public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
