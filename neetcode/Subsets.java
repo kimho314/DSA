@@ -14,35 +14,46 @@ public class Subsets {
 
 
     public List<List<Integer>> subsets(int[] nums) {
-        list = new ArrayList<>();
-        int len = nums.length;
-
-        for (int i = 0; i <= len; i++) {
-            select = new int[i];
-            if (i == 0) {
-                List<Integer> empty = new ArrayList<>();
-                list.add(empty);
-            } else {
-                dfs(0, i, -1, nums);
-            }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i <= nums.length; i++) {
+            List<Integer> list = new ArrayList<>();
+            dfs(res, list, nums, -1, 0, i);
         }
 
-        return list;
+        return res;
     }
 
-    private void dfs(int k, int len, int prev, int[] nums) {
+    private void dfs(List<List<Integer>> res, List<Integer> list, int[] nums, int prev, int k,
+            int len) {
         if (k == len) {
-            List<Integer> list2 = new ArrayList<>();
-            for (int i = 0; i < len; i++) {
-                list2.add(select[i]);
-            }
-            list.add(list2);
-        } else {
-            for (int i = prev + 1; i < nums.length; i++) {
-                select[k] = nums[i];
-                dfs(k + 1, len, i, nums);
-                select[k] = -11;
-            }
+            IO.println(list);
+            res.add(new ArrayList<>(list));
+            return;
         }
+
+        for (int i = prev + 1; i < nums.length; i++) {
+            list.add(nums[i]);
+            dfs(res, list, nums, i, k + 1, len);
+            list.remove(list.size() - 1);
+        }
+    }
+
+    public List<List<Integer>> subsets2(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> subset = new ArrayList<>();
+        dfs2(nums, 0, subset, res);
+        return res;
+    }
+
+    private void dfs2(int[] nums, int i, List<Integer> subset, List<List<Integer>> res) {
+        if (i >= nums.length) {
+            System.out.println(i + " " + subset);
+            res.add(new ArrayList<>(subset));
+            return;
+        }
+        subset.add(nums[i]);
+        dfs2(nums, i + 1, subset, res);
+        subset.remove(subset.size() - 1);
+        dfs2(nums, i + 1, subset, res);
     }
 }
