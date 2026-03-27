@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PalindromePartitioning {
-    private List<List<String>> res = new ArrayList<>();
-    private List<String> part = new ArrayList<>();
-
     public static void main(String[] args) {
         PalindromePartitioning sol = new PalindromePartitioning();
         System.out.println(sol.partition("aab"));
