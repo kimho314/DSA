@@ -1,38 +1,38 @@
 import java.util.*;
 
 public class LetterCombinationsofaPhoneNumber {
-    private List<String> res;
+    private List<String> res = new ArrayList<>();
     private String[] digitToChar =
             {"", "", "abc", "def", "ghi", "jkl", "mno", "qprs", "tuv", "wxyz"};
 
     public static void main(String[] args) {
         LetterCombinationsofaPhoneNumber sol = new LetterCombinationsofaPhoneNumber();
-        List<String> res = sol.letterCombinations("34");
-        System.out.println(res);
-        res = sol.letterCombinations("");
-        System.out.println(res);
+        List<String> ret = sol.letterCombinations("34");
+        IO.println(ret);
+        ret = sol.letterCombinations("");
+        IO.println(ret);
     }
 
     public List<String> letterCombinations(String digits) {
         res = new ArrayList<>();
-        if (digits == null || digits.isEmpty()) {
+        if (digits.isEmpty()) {
             return res;
         }
 
-        recFunc(0, "", digits);
+        dfs(0, "", digits);
 
         return res;
     }
 
-    private void recFunc(int i, String cur, String digits) {
-        if (cur.length() == digits.length()) {
-            res.add(cur);
+    private void dfs(int i, String curStr, String digits) {
+        if (curStr.length() == digits.length()) {
+            res.add(curStr);
             return;
         }
 
         String chars = digitToChar[digits.charAt(i) - '0'];
         for (char c : chars.toCharArray()) {
-            recFunc(i + 1, cur + c, digits);
+            dfs(i + 1, curStr + c, digits);
         }
     }
 
