@@ -26,12 +26,12 @@ public class GenerateParentheses {
 
         if (openN < n) {
             stack.append('(');
-            dfs(openN + 1, closedN, n, res, stack);
+            dfs2(openN + 1, closedN, n, res, stack);
             stack.deleteCharAt(stack.length() - 1);
         }
         if (closedN < openN) {
             stack.append(')');
-            dfs(openN, closedN + 1, n, res, stack);
+            dfs2(openN, closedN + 1, n, res, stack);
             stack.deleteCharAt(stack.length() - 1);
         }
     }
