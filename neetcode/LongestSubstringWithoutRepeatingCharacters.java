@@ -12,22 +12,23 @@ public class LongestSubstringWithoutRepeatingCharacters {
     }
 
     public int lengthOfLongestSubstring(String s) {
-        if (s.isEmpty()) {
-            return 0;
+        int len = 0;
+        if (s.length() == 0) {
+            return len;
         }
 
-        Map<Character, Integer> count = new HashMap<>();
+        Map<Character, Integer> map = new HashMap<>();
         int l = 0;
-        int max = 0;
         for (int r = 0; r < s.length(); r++) {
-            count.put(s.charAt(r), count.getOrDefault(s.charAt(r), 0) + 1);
-            while (count.get(s.charAt(r)) > 1) {
-                count.put(s.charAt(l), count.get(s.charAt(l)) - 1);
+            map.put(s.charAt(r), map.getOrDefault(s.charAt(r), 0) + 1);
+            while (map.get(s.charAt(r)) > 1) {
+                map.put(s.charAt(l), map.get(s.charAt(l)) - 1);
                 l++;
             }
-            max = Math.max(max, (r - l + 1));
+
+            len = Math.max(len, (r - l + 1));
         }
 
-        return max;
+        return len;
     }
 }
