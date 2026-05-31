@@ -1,3 +1,5 @@
+package neetcode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,22 @@ public class PalindromePartitioning {
                 part.remove(part.size() - 1);
             }
         }
+    }
+
+    private void dfs2(int i, int j, String s, List<String> part, List<List<String>> res) {
+        if (j == s.length()) {
+            if (i == j) {
+                res.add(new ArrayList<>(part));
+            }
+            return;
+        }
+
+        if (isPali(s, i, j)) {
+            part.add(s.substring(i, j + 1));
+            dfs2(j + 1, j + 1, s, part, res);
+            part.removeLast();
+        }
+        dfs2(i, j + 1, s, part, res);
     }
 
     private boolean isPali(String s, int l, int r) {
