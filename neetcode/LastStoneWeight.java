@@ -1,26 +1,24 @@
-import java.util.*;
+package neetcode;
+
+import java.util.Collections;
+import java.util.PriorityQueue;
 
 public class LastStoneWeight {
     public static void main(String[] args) {
         LastStoneWeight sol = new LastStoneWeight();
-        int res = sol.lastStoneWeight(new int[] {2, 3, 6, 2, 4});
+        int res = sol.lastStoneWeight(new int[]{2, 3, 6, 2, 4});
         System.out.println(res);
-        res = sol.lastStoneWeight(new int[] {1, 2});
+        res = sol.lastStoneWeight(new int[]{1, 2});
         System.out.println(res);
-        res = sol.lastStoneWeight(new int[] {1, 1});
+        res = sol.lastStoneWeight(new int[]{1, 1});
         System.out.println(res);
     }
 
     public int lastStoneWeight(int[] stones) {
-        if (stones == null || stones.length == 0) {
-            return 0;
-        }
-
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         for (int elem : stones) {
             pq.add(elem);
         }
-
         while (pq.size() > 1) {
             int x = pq.poll();
             int y = pq.poll();
@@ -28,19 +26,19 @@ public class LastStoneWeight {
                 continue;
             }
 
+            int tmp = 0;
             if (x > y) {
-                x = x - y;
-                pq.add(x);
-            } else {
-                y = y - x;
-                pq.add(y);
+                tmp = x - y;
             }
+            else {
+                tmp = y - x;
+            }
+            pq.add(tmp);
         }
 
         if (pq.isEmpty()) {
             return 0;
-        } else {
-            return pq.poll();
         }
+        return pq.peek();
     }
 }
