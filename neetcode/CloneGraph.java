@@ -1,14 +1,16 @@
+package neetcode;
+
 import java.util.*;
 
 public class CloneGraph {
     public static void main(String[] args) {
         CloneGraph sol = new CloneGraph();
-        Node root = sol.buildGraph(new int[][] {{2}, {1, 3}, {2}});
-        Node res = sol.cloneGraph(root);
+        Node root = sol.buildGraph(new int[][]{{2}, {1, 3}, {2}});
+        Node res = sol.cloneGraph2(root);
         sol.printGraph(res);
     }
 
-    private class Node {
+    private static class Node {
         public int val;
         public List<Node> neighbors;
 
@@ -28,7 +30,7 @@ public class CloneGraph {
         }
     }
 
-    public Node buildGraph(int[][] adjList) {
+    private Node buildGraph(int[][] adjList) {
         if (adjList == null || adjList.length == 0)
             return null;
 
@@ -48,7 +50,7 @@ public class CloneGraph {
         return nodes[1];
     }
 
-    public void printGraph(Node start) {
+    private void printGraph(Node start) {
         if (start == null)
             return;
 
@@ -75,7 +77,7 @@ public class CloneGraph {
         }
     }
 
-    public Node cloneGraph(Node node) {
+    private Node cloneGraph(Node node) {
         if (node == null) {
             return null;
         }
@@ -97,5 +99,26 @@ public class CloneGraph {
         }
 
         return oldToNew.get(node);
+    }
+
+    private Node cloneGraph2(Node node) {
+        Map<Node, Node> oldToNew = new HashMap<>();
+        return dfs(node, oldToNew);
+    }
+
+    private Node dfs(Node node, Map<Node, Node> oldToNew) {
+        if (node == null) {
+            return null;
+        }
+        if (oldToNew.containsKey(node)) {
+            return oldToNew.get(node);
+        }
+
+        Node newNode = new Node(node.val);
+        oldToNew.put(node, newNode);
+        for (Node nei : node.neighbors) {
+            newNode.neighbors.add(dfs(nei, oldToNew));
+        }
+        return newNode;
     }
 }
