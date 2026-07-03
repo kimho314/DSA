@@ -1,11 +1,15 @@
-import java.util.*;
+package neetcode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RedundantConnection {
     public static void main(String[] args) {
         RedundantConnection sol = new RedundantConnection();
-        int[] res = sol.findRedundantConnection(new int[][] {{1, 2}, {1, 3}, {3, 4}, {2, 4}});
+        int[] res = sol.findRedundantConnection(new int[][]{{1, 2}, {1, 3}, {3, 4}, {2, 4}});
         IO.println(Arrays.toString(res));
-        res = sol.findRedundantConnection(new int[][] {{1, 2}, {1, 3}, {1, 4}, {3, 4}, {4, 5}});
+        res = sol.findRedundantConnection(new int[][]{{1, 2}, {1, 3}, {1, 4}, {3, 4}, {4, 5}});
         IO.println(Arrays.toString(res));
     }
 
@@ -22,28 +26,30 @@ public class RedundantConnection {
             adj.get(u).add(v);
             adj.get(v).add(u);
 
-            boolean[] visited = new boolean[n + 1];
-            if (dfs(u, -1, adj, visited)) {
+            boolean[] visit = new boolean[n + 1];
+            if (dfs(u, -1, adj, visit)) {
                 return edge;
             }
         }
         return new int[0];
     }
 
-    private boolean dfs(int node, int parent, List<List<Integer>> adj, boolean[] visited) {
-        if (visited[node]) {
+    private boolean dfs(int node, int parent, List<List<Integer>> adj, boolean[] visit) {
+        if (visit[node]) {
             return true;
         }
+        visit[node] = true;
 
-        visited[node] = true;
-        for (int nei : adj.get(node)) {
-            if (nei == parent) {
+        for (int elem : adj.get(node)) {
+            if (elem == parent) {
                 continue;
             }
-            if (dfs(nei, node, adj, visited)) {
+            if (dfs(elem, node, adj, visit)) {
                 return true;
             }
         }
         return false;
     }
+
+
 }
