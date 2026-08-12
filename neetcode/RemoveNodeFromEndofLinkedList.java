@@ -1,11 +1,15 @@
-import java.util.*;
+package neetcode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RemoveNodeFromEndofLinkedList {
     public class ListNode {
         int val;
         ListNode next;
 
-        ListNode() {}
+        ListNode() {
+        }
 
         ListNode(int val) {
             this.val = val;
@@ -18,11 +22,10 @@ public class RemoveNodeFromEndofLinkedList {
     }
 
 
-
-    public static void main(String[] args) {
+    static void main(String[] args) {
         RemoveNodeFromEndofLinkedList sol = new RemoveNodeFromEndofLinkedList();
-        ListNode head = sol.create(new int[] {1, 2, 3, 4});
-        ListNode node = sol.removeNthFromEnd3(head, 2);
+        ListNode head = sol.create(new int[]{1, 2, 3, 4});
+        ListNode node = sol.removeNthFromEnd2(head, 2);
         sol.print(node);
     }
 
@@ -34,65 +37,41 @@ public class RemoveNodeFromEndofLinkedList {
             cur = cur.next;
         }
 
-        int removeIdx = nodes.size() - n;
-        if (removeIdx == 0) {
-            return head.next;
-        }
-
-        nodes.get(removeIdx - 1).next = nodes.get(removeIdx).next;
-        return head;
-    }
-
-    public ListNode removeNthFromEnd2(ListNode head, int n) {
-        int len = 0;
-        ListNode cur = head;
-        while (cur != null) {
-            len++;
-            cur = cur.next;
-        }
-
-        int target = len - n;
-        System.out.println(len + " " + target);
+        int target = nodes.size() - n;
         if (target == 0) {
             return head.next;
         }
-
-        cur = head;
-        for (int i = 0; i < len; i++) {
-            if (i + 1 == target) {
-                cur.next = cur.next.next;
-                break;
-            }
-            cur = cur.next;
-        }
+        nodes.get(target - 1).next = nodes.get(target).next;
         return head;
     }
 
-    public ListNode removeNthFromEnd3(ListNode head, int n) {
+
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
         ListNode dummy = new ListNode(0, head);
-        ListNode slow = dummy;
-        ListNode fast = head;
+        ListNode left = dummy;
+        ListNode right = head;
         while (n > 0) {
-            fast = fast.next;
+            right = right.next;
             n--;
         }
 
-        while (fast != null) {
-            slow = slow.next;
-            fast = fast.next;
+        while (right != null) {
+            right = right.next;
+            left = left.next;
         }
-
-        slow.next = slow.next.next;
-
+        left.next = left.next.next;
         return dummy.next;
     }
 
     private void print(ListNode head) {
         ListNode cur = head;
+        StringBuilder sb = new StringBuilder();
         while (cur != null) {
-            System.out.println(cur.val);
+            sb.append(cur.val).append(" ");
             cur = cur.next;
         }
+        sb.append("\n");
+        IO.println(sb.toString());
     }
 
     private ListNode create(int[] arr) {
