@@ -1,16 +1,18 @@
+package neetcode;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class BalancedBinaryTree {
     public static void main(String[] args) {
         BalancedBinaryTree sol = new BalancedBinaryTree();
-        TreeNode root = sol.create(new Integer[] { 1, 2, 3, null, null, 4 });
+        TreeNode root = sol.create(new Integer[]{1, 2, 3, null, null, 4});
         System.out.println(sol.isBalanced(root));
-        root = sol.create(new Integer[] { 1, 2, 3, null, null, 4, null, 5 });
+        root = sol.create(new Integer[]{1, 2, 3, null, null, 4, null, 5});
         System.out.println(sol.isBalanced(root));
-        root = sol.create(new Integer[] {});
+        root = sol.create(new Integer[]{});
         System.out.println(sol.isBalanced(root));
-        root = sol.create(new Integer[] { 1, 2, 2, 3, null, null, 3, 4, null, null, 4 });
+        root = sol.create(new Integer[]{1, 2, 2, 3, null, null, 3, 4, null, null, 4});
         System.out.println(sol.isBalanced(root));
     }
 
@@ -39,7 +41,7 @@ public class BalancedBinaryTree {
 
     private int[] dfs(TreeNode root) {
         if (root == null) {
-            return new int[] { 1, 0 };
+            return new int[]{1, 0};
         }
 
         int[] left = dfs(root.left);
@@ -48,7 +50,7 @@ public class BalancedBinaryTree {
         boolean balanced = (left[0] == 1 && right[0] == 1) && (Math.abs(left[1] - right[1]) <= 1);
         int height = 1 + Math.max(left[1], right[1]);
 
-        return new int[] { balanced ? 1 : 0, height };
+        return new int[]{balanced ? 1 : 0, height};
     }
 
     public boolean isBalanced(TreeNode root) {
