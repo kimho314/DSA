@@ -1,7 +1,9 @@
 package neetcode;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class LongestRepeatingCharacterReplacement {
     static void main(String[] args) {
@@ -30,6 +32,34 @@ public class LongestRepeatingCharacterReplacement {
             res = Math.max(res, (r - l + 1));
         }
 
+        return res;
+    }
+
+    public int characterReplacement2(String s, int k) {
+        Set<Character> set = new HashSet<>();
+        for (char c : s.toCharArray()) {
+            set.add(c);
+        }
+
+        int res = 0;
+        for (char c : set) {
+            int count = 0;
+            int l = 0;
+
+            for (int r = 0; r < s.length(); r++) {
+                if (s.charAt(r) == c) {
+                    count++;
+                }
+
+                while ((r - l + 1) - count > k) {
+                    if (s.charAt(l) == c) {
+                        count--;
+                    }
+                    l++;
+                }
+                res = Math.max(res, (r - l + 1));
+            }
+        }
         return res;
     }
 }
