@@ -22,40 +22,36 @@ public class MinimumWindowSubstring {
             mapT.put(c, mapT.getOrDefault(c, 0) + 1);
         }
 
+        int min = Integer.MAX_VALUE;
+        int[] res = {-1, -1};
         int l = 0;
         int have = 0;
         int need = mapT.size();
-        int resLen = Integer.MAX_VALUE;
-        int[] res = {-1, -1};
-        for (int r = 0; r < s.length(); r++) {
-            char rightChar = s.charAt(r);
-            mapS.put(rightChar, mapS.getOrDefault(rightChar, 0) + 1);
 
-            if (mapT.containsKey(rightChar) && mapS.get(rightChar).equals(mapT.get(rightChar))) {
+        for (int r = 0; r < s.length(); r++) {
+            char elemR = s.charAt(r);
+            mapS.put(elemR, mapS.getOrDefault(elemR, 0) + 1);
+
+            if (mapT.containsKey(elemR) && mapT.get(elemR).equals(mapS.get(elemR))) {
                 have++;
             }
 
             while (need == have) {
-                if ((r - l + 1) < resLen) {
-                    resLen = (r - l + 1);
+                if (min > (r - l + 1)) {
+                    min = (r - l + 1);
                     res[0] = l;
                     res[1] = r;
                 }
 
-                char leftChar = s.charAt(l);
-                mapS.put(leftChar, mapS.get(leftChar) - 1);
-                if (mapT.containsKey(leftChar) && mapS.get(leftChar) < mapT.get(leftChar)) {
+                char elemL = s.charAt(l);
+                mapS.put(elemL, mapS.get(elemL) - 1);
+                if (mapT.containsKey(elemL) && mapT.get(elemL) > mapS.get(elemL)) {
                     have--;
                 }
                 l++;
             }
         }
 
-        if (resLen == Integer.MAX_VALUE) {
-            return "";
-        }
-        else {
-            return s.substring(res[0], res[1] + 1);
-        }
+        return min == Integer.MAX_VALUE ? "" : s.substring(res[0], res[1] + 1);
     }
 }
